@@ -40,8 +40,55 @@ The resulting string is safely transmitted back to your Telegram bot backend usi
 
 ---
 
+## ✏️ Edit / Pre-fill Mode
+
+To open an existing receipt for editing, pass its current values as URL query parameters:
+
+```text
+https://<username>.github.io/<repository>/?t=YYYYMMDDTHHMM&s=0.00&fn=0000000000000000&i=0&fp=0&n=1
+```
+
+Example with actual values:
+
+```text
+https://example.github.io/fiscal_receipt_builder/?t=20201225T1016&s=1113.90&fn=9282440300829880&i=10556&fp=189504453&n=1
+```
+
+| Parameter | Format | Example |
+|---|---|---|
+| `t` | Local date and time as `YYYYMMDDTHHMM` | `20201225T1016` |
+| `s` | Positive amount with a dot as the decimal separator | `1113.90` |
+| `fn` | Fiscal drive number, exactly 16 digits | `9282440300829880` |
+| `i` | Fiscal document number, 1–10 digits | `10556` |
+| `fp` | Fiscal attribute, 1–10 digits | `189504453` |
+| `n` | Calculation type: `1` inflow, `2` return of inflow, `3` outflow, `4` return of outflow | `1` |
+
+Known parameters are populated independently. Parameters omitted from the URL remain empty and can be entered manually.
+
+---
+
 ## 🔧 Local Setup & Deployment
+
+### Local debugging
+
+No build or dependency installation is required. Start a static HTTP server from the project directory:
+
+```bash
+python3 -m http.server 8000
+```
+
+Open [http://localhost:8000](http://localhost:8000) in a browser. To test edit mode and URL pre-filling, use a URL such as:
+
+```text
+http://localhost:8000/?t=20201225T1016&s=1113.90&fn=9282440300829880&i=10556&fp=189504453&n=1
+```
+
+Stop the server with `Ctrl+C`.
+
+> A regular browser can be used to debug layout, localization, pre-filling, and validation. Native `MainButton`, `sendData()`, theme events, and closing behavior require the Telegram client or a mocked Telegram WebApp SDK. A public HTTPS URL is required to test the application through a real bot.
+
+### Deployment
 
 1. Clone this repository to your local machine or fork it on GitHub.
 2. Enable **GitHub Pages** in your repository settings to host the `index.html` file publicly.
-3. Link the deployment URL to your Telegram Bot using `@BotFather` (set up a Menu Button or a inline button leading to your WebApp URL).
+3. Link the deployment URL to your Telegram Bot using `@BotFather` and a compatible Web App keyboard button.
