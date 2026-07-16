@@ -554,6 +554,8 @@
           if (params.has("t")) {
             fields.t.value = parseReceiptDate(params.get("t") ?? "");
             prefilled.add("t");
+          } else {
+            fields.t.value = toLocalMinute();
           }
           if (params.has("s")) {
             fields.s.value = formatAmount(sanitizeAmount(params.get("s") ?? ""));
