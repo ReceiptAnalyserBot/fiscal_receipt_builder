@@ -74,6 +74,15 @@
         animation: reveal 240ms ease-out both;
       }
 
+      .app-context {
+        margin: 0 0 7px;
+        color: var(--tg-theme-button-color);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.055em;
+        text-transform: uppercase;
+      }
+
       h1 {
         margin: 0;
         font-size: clamp(26px, 8vw, 34px);
@@ -276,8 +285,9 @@
   <body>
     <main class="app">
       <header class="app-header">
+        <p class="app-context" data-i18n="context">54‑ФЗ · Фискальный чек</p>
         <h1 data-i18n="title">Реквизиты чека</h1>
-        <p class="subtitle" data-i18n="subtitle">Введите фискальные данные точно так, как они указаны на чеке.</p>
+        <p class="subtitle" data-i18n="subtitle">Введите данные с кассового чека для передачи Telegram-боту.</p>
       </header>
 
       <form id="receipt-form" class="form-stack" novalidate>
@@ -328,8 +338,8 @@
               <label for="n" data-i18n="typeLabel">Признак расчета</label>
               <div class="select-wrap">
                 <select id="n" name="n" required aria-describedby="n-error">
-                  <option value="" disabled selected data-i18n="typePlaceholder">Выберите признак</option>
-                  <option value="1" data-i18n="type1">Приход (1)</option>
+                  <option value="" disabled data-i18n="typePlaceholder">Выберите признак</option>
+                  <option value="1" selected data-i18n="type1">Приход (1)</option>
                   <option value="2" data-i18n="type2">Возврат прихода (2)</option>
                   <option value="3" data-i18n="type3">Расход (3)</option>
                   <option value="4" data-i18n="type4">Возврат расхода (4)</option>
@@ -356,8 +366,9 @@
 
         const text = {
           pageTitle: "Реквизиты чека",
+          context: "54‑ФЗ · Фискальный чек",
           title: "Реквизиты чека",
-          subtitle: "Введите фискальные данные точно так, как они указаны на чеке.",
+          subtitle: "Введите данные с кассового чека для передачи Telegram-боту.",
           receiptSection: "Чек",
           fiscalSection: "Фискальные реквизиты",
           typeSection: "Операция",
