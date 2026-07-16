@@ -17,7 +17,7 @@ Once validated, the app compiles the data into a standard query string format re
   - **Fiscal Parameters (`fn`, `i`, `fp`):** Strips non-numeric characters on the fly, forcing strict digit length boundaries (e.g., exactly 16 digits for the Fiscal Drive).
   - **Operation Type (`n`):** Maps human-readable calculation vectors (Inflow/Outflow/Returns) to proper numeric flags.
 - **Bi-directional Mobile Keypads:** Employs precise `inputmode` attributes (`decimal`, `numeric`) to trigger the correct native virtual keyboards on iOS and Android.
-- **Smart Localization (RU / EN):** Automatically detects the user's language from their Telegram profile and instantly translates all UI labels, placeholders, and validation error messages.
+- **Russian Fiscal Workflow:** Uses a consistent Russian interface and the device's native date and time picker for the best mobile ergonomics.
 - **Native Look & Feel:** Features a single-page card layout mimicking native Telegram/iOS/Android settings. Fully reactive to instant light/dark theme toggles using official Telegram CSS variables.
 
 ---
