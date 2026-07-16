@@ -196,7 +196,18 @@
 
       .field input[type="datetime-local"] {
         min-width: 0;
+        text-align: left;
         appearance: auto;
+      }
+
+      .field input[type="datetime-local"]::-webkit-date-and-time-value,
+      .field input[type="datetime-local"]::-webkit-datetime-edit {
+        text-align: left;
+      }
+
+      .field input[type="datetime-local"]::-webkit-datetime-edit {
+        display: block;
+        padding: 0;
       }
 
       .field input[type="datetime-local"]::-webkit-calendar-picker-indicator {
@@ -291,8 +302,8 @@
           <h2 id="fiscal-section-title" class="section-title" data-i18n="fiscalSection">Фискальные реквизиты</h2>
           <div class="card">
             <div class="field" data-field="fn">
-              <label for="fn" data-i18n="fnLabel">ФН</label>
-              <input id="fn" name="fn" type="text" inputmode="numeric" autocomplete="off" enterkeyhint="next" placeholder="0000000000000000" required aria-describedby="fn-error">
+              <label for="fn" data-i18n="fnLabel">ФН (№ накопителя)</label>
+              <input id="fn" name="fn" type="text" inputmode="numeric" autocomplete="off" enterkeyhint="next" placeholder="Например, 9282440300829880" required aria-describedby="fn-error">
               <p id="fn-error" class="error" aria-live="polite"></p>
             </div>
 
@@ -318,10 +329,10 @@
               <div class="select-wrap">
                 <select id="n" name="n" required aria-describedby="n-error">
                   <option value="" disabled selected data-i18n="typePlaceholder">Выберите признак</option>
-                  <option value="1" data-i18n="type1">Приход</option>
-                  <option value="2" data-i18n="type2">Возврат прихода</option>
-                  <option value="3" data-i18n="type3">Расход</option>
-                  <option value="4" data-i18n="type4">Возврат расхода</option>
+                  <option value="1" data-i18n="type1">Приход (1)</option>
+                  <option value="2" data-i18n="type2">Возврат прихода (2)</option>
+                  <option value="3" data-i18n="type3">Расход (3)</option>
+                  <option value="4" data-i18n="type4">Возврат расхода (4)</option>
                 </select>
               </div>
               <p id="n-error" class="error" aria-live="polite"></p>
@@ -352,15 +363,15 @@
           typeSection: "Операция",
           dateLabel: "Дата и время",
           amountLabel: "Сумма чека",
-          fnLabel: "ФН",
+          fnLabel: "ФН (№ накопителя)",
           fdLabel: "ФД (№ документа)",
           fpLabel: "ФП (ФПД)",
           typeLabel: "Признак расчета",
           typePlaceholder: "Выберите признак",
-          type1: "Приход",
-          type2: "Возврат прихода",
-          type3: "Расход",
-          type4: "Возврат расхода",
+          type1: "Приход (1)",
+          type2: "Возврат прихода (2)",
+          type3: "Расход (3)",
+          type4: "Возврат расхода (4)",
           telegramNote: "Откройте эту страницу в Telegram, чтобы отправить данные.",
           submit: "Отправить",
           required: "Обязательное поле.",
@@ -554,6 +565,8 @@
         }
 
         function bindFieldEvents() {
+          const keyboardInputs = new Set([fields.s, fields.fn, fields.i, fields.fp]);
+
           fields.s.addEventListener("input", () => {
             fields.s.value = sanitizeAmount(fields.s.value);
           });
@@ -587,6 +600,16 @@
               touched.add(name);
               validateField(name, true);
               updateMainButton();
+            });
+          });
+
+          form.addEventListener("focusout", (event) => {
+            if (!keyboardInputs.has(event.target)) return;
+
+            requestAnimationFrame(() => {
+              if (!keyboardInputs.has(document.activeElement)) {
+                telegram?.hideKeyboard?.();
+              }
             });
           });
 
