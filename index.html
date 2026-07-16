@@ -613,6 +613,13 @@
             });
           });
 
+          document.addEventListener("pointerdown", (event) => {
+            const interactiveTarget = event.target.closest("input, select, label, button, a, [role='button']");
+            if (!interactiveTarget && keyboardInputs.has(document.activeElement)) {
+              document.activeElement.blur();
+            }
+          });
+
           form.addEventListener("submit", (event) => event.preventDefault());
         }
 
